@@ -1,7 +1,7 @@
-#include "SerialComm.h"
+#include "ArduinoSerialComm.h"
 
 
-ArduinoSerialComm::ArduinoSerialComm(int bufferSize = 50, int packetSize = 10, int readWriteTimeout = 10000) 
+ArduinoSerialComm::ArduinoSerialComm(unsigned int bufferSize, unsigned int packetSize, unsigned int readWriteTimeout) 
 {
     readRemaining = 0;
     readPos = 0;
@@ -13,9 +13,9 @@ ArduinoSerialComm::ArduinoSerialComm(int bufferSize = 50, int packetSize = 10, i
     mainBuffer = new char[bufferSize];
 }
 
-ArduinoSerialComm::~ArduinoSerialComm
+ArduinoSerialComm::~ArduinoSerialComm()
 {
-    delete[] data;
+    delete[] mainBuffer;
 }
 
 bool ArduinoSerialComm::sendData(char * chData, int dataSize)
@@ -44,7 +44,7 @@ bool ArduinoSerialComm::sendData(char * chData, int dataSize)
       return false;
   }
   int remainingSize = dataSize;
-  int writeSize = min(CHUNK_SIZE, remainingSize);
+  int writeSize = min(chunkSize, remainingSize);
   while (remainingSize > 0) {
     Serial.write(pointer, writeSize);
     pointer += writeSize;
@@ -53,7 +53,7 @@ bool ArduinoSerialComm::sendData(char * chData, int dataSize)
 
     ok = false;
     e = 0;
-    while (e < TIMEOUT) {
+    while (e < timeout) {
       reply = 0;
       if (Serial.available()) {
         reply = Serial.read();
@@ -103,7 +103,7 @@ bool ArduinoSerialComm::newInput()
         if (cmd == 3) {
             alive = 0;
         }
-        return;
+        return false;
     }
     if (!mainBufferSize) {
         if (Serial.available() < sizeof(int)) {
@@ -169,7 +169,7 @@ bool ArduinoSerialComm::stillAlive()
     return (alive < timeout);
 }
 
-const char * SerialComm::data()
+const char * ArduinoSerialComm::data()
 {
     const char * sndData = (const char*)mainBuffer;
     return sndData;
