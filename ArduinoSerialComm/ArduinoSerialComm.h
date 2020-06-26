@@ -1,7 +1,6 @@
 #ifndef ARDUINOSERIALCOMM_H
 #define ARDUINOSERIALCOMM_H
  
-#include "WProgram.h"
 #include <elapsedMillis.h>
  
 class ArduinoSerialComm
