@@ -1,0 +1,22 @@
+#######################################
+# Syntax Coloring Map SD
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+ArduinoSerialComm	KEYWORD1	ArduinoSerialComm
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+sendData	KEYWORD2
+newInput	KEYWORD2
+stillAlive	KEYWORD2
+data	KEYWORD2
+size	KEYWORD2	
+
+#######################################
+# Constants (LITERAL1)
+#######################################
